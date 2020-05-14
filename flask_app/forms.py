@@ -43,7 +43,7 @@ class CreateTodoForm(FlaskForm):
     task3 = StringField("Task 3")
     task4 = StringField("Task 4")
     task5 = StringField("Task 5")
-    submit = SubmitField("Login")
+    submit = SubmitField("Create")
 
 class UpdateTodoForm(FlaskForm):
     task1 = StringField("Task 1")
@@ -51,11 +51,11 @@ class UpdateTodoForm(FlaskForm):
     task3 = StringField("Task 3")
     task4 = StringField("Task 4")
     task5 = StringField("Task 5")
-    submit = SubmitField("Login")
+    submit = SubmitField("Update")
 
 class ShareTodoForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
-    submit = SubmitField("Login")
+    submit = SubmitField("Share")
 
 class UpdateUsernameForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=1, max=40)])
