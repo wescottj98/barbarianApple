@@ -9,8 +9,6 @@ from werkzeug.utils import secure_filename
 import os
 from datetime import datetime
 
-# local
-from .client import MovieClient
 
 app = Flask(__name__)
 # app.config["MONGO_URI"] = "mongodb://localhost:27017/second_database"
@@ -23,6 +21,5 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 bcrypt = Bcrypt(app)
 
-client = MovieClient(os.environ.get('OMDB_API_KEY'))
 
 from . import routes

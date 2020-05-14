@@ -72,5 +72,6 @@ class UpdateProfilePicForm(FlaskForm):
         FileRequired(), 
         FileAllowed(['jpg', 'png'], 'Images Only!')
     ])
+    
     submit = SubmitField('Update')
 

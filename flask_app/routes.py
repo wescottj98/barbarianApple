@@ -22,10 +22,6 @@ from .utils import current_time
 """ ************ View functions ************ """
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    form = SearchForm()
-
-    if form.validate_on_submit():
-        return redirect(url_for('query_results', query=form.search_query.data))
 
     return render_template('index.html', form=form)
 
@@ -38,7 +34,7 @@ def query_results(query):
     
     return render_template('query.html', results=results)
 
-@app.route('/movies/<movie_id>', methods=['GET', 'POST'])
+@app.route('/toDoList/<toDo_id>', methods=['GET', 'POST'])
 def movie_detail(movie_id):
     result = client.retrieve_movie_by_id(movie_id)
 
