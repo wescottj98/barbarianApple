@@ -28,7 +28,7 @@ def index():
         return redirect(url_for('query_results', query=form.search_query.data))
 
     return render_template('index.html', form=form)
-
+'''
 @app.route('/search-results/<query>', methods=['GET'])
 def query_results(query):
     results = client.search(query)
@@ -72,7 +72,7 @@ def movie_detail(movie_id):
 
 
     return render_template('movie_detail.html', form=form, movie=result, reviews=reviews)
-
+'''
 @app.route('/user/<username>')
 def user_detail(username):
     user = User.objects(username=username).first()
