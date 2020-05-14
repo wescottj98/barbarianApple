@@ -9,14 +9,6 @@ from wtforms.validators import (InputRequired, DataRequired, NumberRange, Length
 
 from .models import User
 
-class SearchForm(FlaskForm):
-    search_query = StringField('Query', validators=[InputRequired(), Length(min=1, max=100)])
-    submit = SubmitField('Search')
-
-class MovieReviewForm(FlaskForm):
-    text = TextAreaField('Comment', validators=[InputRequired(), Length(min=5, max=500)])
-    submit = SubmitField('Enter Comment')
-
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=1, max=40)])
     email = StringField('Email', validators=[InputRequired(), Email()])
@@ -44,6 +36,22 @@ class LoginForm(FlaskForm):
         user = User.objects(username=username.data).first()
         if user is None:
             raise ValidationError("That username does not exist in our database.")
+
+class CreateTodoForm(FlaskForm):
+    task1 = StringField("Task 1", validators=[InputRequired()])
+    task2 = StringField("Task 2")
+    task3 = StringField("Task 3")
+    task4 = StringField("Task 4")
+    task5 = StringField("Task 5")
+    submit = SubmitField("Login")
+
+class UpdateTodoForm(FlaskForm):
+
+    submit = SubmitField("Login")
+
+class ShareTodoForm(FlaskForm):
+
+    submit = SubmitField("Login")
 
 class UpdateUsernameForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=1, max=40)])
