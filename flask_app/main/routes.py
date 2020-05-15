@@ -24,7 +24,7 @@ main = Blueprint("main", __name__)
 @main.route('/', methods=['GET', 'POST'])
 def index():
 
-    return render_template('index.html', form=form)
+    return render_template('index.html')
 '''
 @main.route('/search-results/<query>', methods=['GET'])
 def query_results(query):

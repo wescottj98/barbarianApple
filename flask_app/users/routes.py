@@ -32,7 +32,7 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed)
         user.save()
 
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
 
     return render_template('register.html', title='Register', form=form)
 
@@ -48,10 +48,10 @@ def login():
 
         if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for('account'))
+            return redirect(url_for('users.account'))
         else:
             flash('Login failed. Check your username and/or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('users.login'))
 
     return render_template('login.html', title='Login', form=form)
 
@@ -59,7 +59,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -71,7 +71,7 @@ def account():
         # current_user.username = username_form.username.data
         current_user.modify(username=username_form.username.data)
         current_user.save()
-        return redirect(url_for('account'))
+        return redirect(url_for('users.account'))
 
     if profile_pic_form.validate_on_submit():
         img = profile_pic_form.propic.data
@@ -83,7 +83,7 @@ def account():
             current_user.profile_pic.replace(img.stream, content_type='images/png')
         current_user.save()
 
-        return redirect(url_for('account'))
+        return redirect(url_for('users.account'))
 
     image = images(current_user.username)
 

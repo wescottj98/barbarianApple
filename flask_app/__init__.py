@@ -24,3 +24,6 @@ bcrypt = Bcrypt(app)
 
 from flask_app.main.routes import main
 from flask_app.users.routes import users
+
+app.register_blueprint(main)
+app.register_blueprint(users)
