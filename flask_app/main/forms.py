@@ -29,13 +29,3 @@ class UpdateTodoForm(FlaskForm):
 class ShareTodoForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
     submit = SubmitField("Share")
-
-class UpdateUsernameForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired(), Length(min=1, max=40)])
-    submit = SubmitField('Update Username')
-
-    def validate_username(self, username):
-        if username.data != current_user.username:
-            user = User.objects(username=username.data).first()
-            if user is not None:
-                raise ValidationError("That username is already taken")

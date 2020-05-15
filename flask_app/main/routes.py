@@ -13,8 +13,8 @@ import base64
 
 # local
 from .. import app, bcrypt
-from .forms import (RegistrationForm, LoginForm,
-                             UpdateUsernameForm, UpdateProfilePicForm)
+from .forms import (CreateTodoForm, UpdateTodoForm,
+                             ShareTodoForm)
 from ..models import User, Review, load_user
 from ..utils import current_time
 
