@@ -22,4 +22,5 @@ login_manager.login_view = 'login'
 bcrypt = Bcrypt(app)
 
 
-from . import routes
+from flask_app.main.routes import main
+from flask_app.users.routes import users

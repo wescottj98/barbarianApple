@@ -12,11 +12,11 @@ import io
 import base64
 
 # local
-from . import app, bcrypt, client
-from .forms import (SearchForm, MovieReviewForm, RegistrationForm, LoginForm,
+from .. import app, bcrypt
+from .forms import (RegistrationForm, LoginForm,
                              UpdateUsernameForm, UpdateProfilePicForm)
-from .models import User, Review, load_user
-from .utils import current_time
+from ..models import User, Review, load_user
+from ..utils import current_time
 
 main = Blueprint("main", __name__)
 
