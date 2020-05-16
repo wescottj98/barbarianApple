@@ -12,7 +12,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 # app.config["MONGO_URI"] = "mongodb://localhost:27017/second_database"
-app.config['MONGODB_HOST'] = 'mongodb://localhost:27017/project_4_soln'
+app.config['MONGODB_HOST'] = 'mongodb://localhost:27017/to_do_list_app'
 app.config['SECRET_KEY'] = b'\x020;yr\x91\x11\xbe"\x9d\xc1\x14\x91\xadf\xec'
 
 # mongo = PyMongo(app)

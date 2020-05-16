@@ -24,4 +24,10 @@ class Review(db.Document):
     imdb_id = db.StringField(required=True, min_length=9, max_length=9)
     movie_title = db.StringField(required=True, min_length=1, max_length=100)
 
+class ToDo(db.Document):
+    owner = db.ReferenceField(User, required=True)
+    # id = db.ObjectIdField(default=bson.ObjectId, primary_key=True)
+    content = db.StringField(required=True, min_length=1, max_length=500)
+
+
 

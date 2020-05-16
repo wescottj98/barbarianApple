@@ -23,7 +23,7 @@ users = Blueprint("users", __name__)
 @users.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -40,7 +40,7 @@ def register():
 @users.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.home'))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -48,7 +48,8 @@ def login():
 
         if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for('users.account'))
+            # return redirect(url_for('users.account'))
+            return redirect(url_for('main.home'))
         else:
             flash('Login failed. Check your username and/or password')
             return redirect(url_for('users.login'))

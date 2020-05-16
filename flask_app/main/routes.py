@@ -15,7 +15,7 @@ import base64
 from .. import app, bcrypt
 from .forms import (CreateTodoForm, UpdateTodoForm,
                              ShareTodoForm)
-from ..models import User, Review, load_user
+from ..models import User, Review, load_user, ToDo
 from ..utils import current_time
 
 main = Blueprint("main", __name__)
@@ -85,3 +85,39 @@ def images(username):
     bytes_im = io.BytesIO(user.profile_pic.read())
     image = base64.b64encode(bytes_im.getvalue()).decode()
     return image
+
+
+@main.route('/home', methods=['GET', 'POST'])
+@login_required
+def home():
+    createTodo_form = CreateTodoForm()
+    updateTodo_form = UpdateTodoForm()
+
+    current_user_to_do_list = ToDo.objects(owner=load_user(current_user.username))
+
+
+    if createTodo_form.validate_on_submit():
+        toDo = ToDo(
+            owner = load_user(current_user.username),
+            content = createTodo_form.task.data
+        )
+        toDo.save()
+
+        return redirect(url_for('main.home'))
+
+    if updateTodo_form.validate_on_submit():
+    
+        all_to_do_List = toDo.objects(owner=load_user(current_user.username))
+        # update_This_toDo = all_to_do_List.first()
+
+        for to_do in all_to_do_List:
+            if to_do._id == updateTodo_form._id.data:
+                to_do.modify(content=updateTodo_form.content.data)
+                to_do.save()
+                break
+
+        return redirect(url_for('main.home'))
+
+    # image = images(current_user.username)
+
+    return render_template('home.html', createTodo_form=createTodo_form, updateTodo_form=updateTodo_form, current_user_to_do_list=current_user_to_do_list)
