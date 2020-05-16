@@ -2,13 +2,7 @@
 {% block content %}
 
 <div class="row">
-    <div class="col">
-      <h1>Welcome {{current_user.username}} to your To-do List!</h1>
-   
-    </div>
-    <div class="col">
-        
-    </div>
+    <h1>Welcome {{current_user.username}} to your To-do List!</h1>
 </div>
 
 <div class="row">
@@ -27,31 +21,44 @@
               </div>
               {% endif %}
           </div>
-          
-          <div class="form-group">
-              {{ createTodo_form.submit }}
-          </div>
-          <hr><br>
-
-          <div>
-            {% for to_do in current_user_to_do_list %}
-              <div>
-                <input type="checkbox" name="doneWithTask" id="{{to_do._id}}">
-                <span> {{to_do.content}} TO Do List test!</span>
-                <!-- <div style="float: right;"> -->
-                  <input type="button" value="Update">
-                  <input type="button" value="Delete">
-                  <input type="button" value="Share">
-                <!-- </div> -->
-                
-
-              </div>
-              
-            {% endfor %}
-          </div>
-          
-
       </form>
+      
+          
+      <div class="form-group">
+          {{ createTodo_form.submit }}
+      </div>
+      <hr><br>
+
+      <div id="todo-list">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-warning" role="alert">
+              {% for message in messages %}
+                <span>{{ message }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% for to_do in current_user_to_do_list %}
+          <div class="row">
+            <input type="checkbox" name="doneWithTask" id="{{to_do.id}}">
+            <span> {{to_do.content}}</span>
+
+            <form action="/todos/delete/{{to_do.id}}" method="post">
+              <button type="submit" class="btn btn-primary">Delete</button>
+            </form>
+
+            <form action="/todos/update/{{to_do.id}}" method="post">
+              <button type="submit" class="btn btn-primary">Update (not yet implemented</button>
+            </form>
+            
+            <form action="/todos/share/{{to_do.id}}" method="post">
+              <button type="submit" class="btn btn-primary">Share (not yet implemented</button>
+            </form>
+          </div>
+        {% endfor %}
+      </div>
   </div>
 </div>
 

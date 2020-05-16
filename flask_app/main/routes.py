@@ -23,8 +23,11 @@ main = Blueprint("main", __name__)
 """ ************ View functions ************ """
 @main.route('/', methods=['GET', 'POST'])
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
 
     return render_template('index.html')
+
 '''
 @main.route('/search-results/<query>', methods=['GET'])
 def query_results(query):
@@ -34,42 +37,18 @@ def query_results(query):
         return render_template('query.html', error_msg=results['Error'])
     
     return render_template('query.html', results=results)
-
-@main.route('/toDoList/<toDo_id>', methods=['GET', 'POST'])
-def movie_detail(movie_id):
-    result = client.retrieve_movie_by_id(movie_id)
-
-    if type(result) == dict:
-        return render_template('movie_detail.html', error_msg=result['Error'])
-
-    form = MovieReviewForm()
-    if form.validate_on_submit():
-        review = Review(
-            commenter=load_user(current_user.username), 
-            content=form.text.data, 
-            date=current_time(),
-            imdb_id=movie_id,
-            movie_title=result.title
-        )
-
-        review.save()
-
-        return redirect(request.path)
-
-    reviews_m = Review.objects(imdb_id=movie_id)
-
-    reviews = []
-    for r in reviews_m:
-        reviews.append({
-            'date': r.date,
-            'username': r.commenter.username,
-            'content': r.content,
-            'image': images(r.commenter.username)
-        })
-
-
-    return render_template('movie_detail.html', form=form, movie=result, reviews=reviews)
 '''
+
+@main.route('/todos/delete/<todo_id>', methods=['POST'])
+def todo(todo_id):
+    todo = ToDo.objects(id=todo_id).first()
+    if todo is not None:
+        flash('Todo not found to delete')
+    else:
+        ToDo.delete(id=todo_id)
+
+    return redirect(url_for('main.home'))
+
 @main.route('/user/<username>')
 def user_detail(username):
     user = User.objects(username=username).first()
@@ -80,7 +59,6 @@ def user_detail(username):
     return render_template('user_detail.html', username=username, reviews=reviews, image=image)
 
 
-
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
@@ -88,7 +66,6 @@ def home():
     updateTodo_form = UpdateTodoForm()
 
     current_user_to_do_list = ToDo.objects(owner=load_user(current_user.username))
-
 
     if createTodo_form.validate_on_submit():
         toDo = ToDo(
@@ -105,7 +82,7 @@ def home():
         # update_This_toDo = all_to_do_List.first()
 
         for to_do in all_to_do_List:
-            if to_do._id == updateTodo_form._id.data:
+            if to_do.id == updateTodo_form.id.data:
                 to_do.modify(content=updateTodo_form.content.data)
                 to_do.save()
                 break
