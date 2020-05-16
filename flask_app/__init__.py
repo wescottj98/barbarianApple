@@ -1,5 +1,6 @@
 # 3rd-party packages
 from flask import Flask, render_template, request, redirect, url_for
+from flask_mail import Mail
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
@@ -21,6 +22,12 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 bcrypt = Bcrypt(app)
 
+#flask-mail
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_SENDER'] = os.environ.get('MAIL_SENDER')
+app.config['MAIL_PORT'] = os.environ.get('MAIL_PORT')
+
+mail = Mail(app)
 
 from flask_app.main.routes import main
 from flask_app.users.routes import users
