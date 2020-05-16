@@ -79,12 +79,6 @@ def user_detail(username):
 
     return render_template('user_detail.html', username=username, reviews=reviews, image=image)
 
-# @main.route('/images/<username>.png')
-def images(username):
-    user = User.objects(username=username).first()
-    bytes_im = io.BytesIO(user.profile_pic.read())
-    image = base64.b64encode(bytes_im.getvalue()).decode()
-    return image
 
 
 @main.route('/home', methods=['GET', 'POST'])
@@ -121,3 +115,5 @@ def home():
     # image = images(current_user.username)
 
     return render_template('home.html', createTodo_form=createTodo_form, updateTodo_form=updateTodo_form, current_user_to_do_list=current_user_to_do_list)
+
+

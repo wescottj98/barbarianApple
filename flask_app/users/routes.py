@@ -62,6 +62,13 @@ def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
+# @main.route('/images/<username>.png')
+def images(username):
+    user = User.objects(username=username).first()
+    bytes_im = io.BytesIO(user.profile_pic.read())
+    image = base64.b64encode(bytes_im.getvalue()).decode()
+    return image
+
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
