@@ -35,13 +35,15 @@
 
           <div>
             {% for to_do in current_user_to_do_list %}
-              <input type="hidden" name="toDoID" value="{{to_do._id}}">
               <div>
-                <input type="checkbox" name="doneWithTask" id="">
-                <span>TO Do List test!</span>
-                <input type="button" value="Update">
-                <input type="button" value="Delete">
-                <input type="button" value="Share">
+                <input type="checkbox" name="doneWithTask" id="{{to_do._id}}">
+                <span> {{to_do.content}} TO Do List test!</span>
+                <!-- <div style="float: right;"> -->
+                  <input type="button" value="Update">
+                  <input type="button" value="Delete">
+                  <input type="button" value="Share">
+                <!-- </div> -->
+                
 
               </div>
               
