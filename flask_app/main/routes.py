@@ -42,10 +42,10 @@ def query_results(query):
 @main.route('/todos/delete/<todo_id>', methods=['POST'])
 def todo(todo_id):
     todo = ToDo.objects(id=todo_id).first()
-    if todo is not None:
+    if todo is None:
         flash('Todo not found to delete')
     else:
-        ToDo.delete(id=todo_id)
+        todo.delete()
 
     return redirect(url_for('main.home'))
 

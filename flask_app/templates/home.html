@@ -21,13 +21,14 @@
               </div>
               {% endif %}
           </div>
-      </form>
       
           
-      <div class="form-group">
-          {{ createTodo_form.submit }}
-      </div>
-      <hr><br>
+        <div class="form-group">
+            {{ createTodo_form.submit }}
+        </div>
+        <hr><br>
+      </form>
+
 
       <div id="todo-list">
         {% with messages = get_flashed_messages() %}
