@@ -40,12 +40,25 @@ def query_results(query):
 '''
 
 @main.route('/todos/delete/<todo_id>', methods=['POST'])
-def todo(todo_id):
+def deleteTodo(todo_id):
     todo = ToDo.objects(id=todo_id).first()
     if todo is None:
         flash('Todo not found to delete')
     else:
         todo.delete()
+
+    return redirect(url_for('main.home'))
+
+@main.route('/todos/update/<todo_id>', methods=['POST'])
+def updateTodo(todo_id):
+    updateTodo_form = UpdateTodoForm()
+
+    if updateTodo_form.validate_on_submit():
+
+        update = ToDo.objects(id=todo_id).update_one(content=updateTodo_form.task.data)
+        
+        if update != True:
+            flash('Todo not found to update')
 
     return redirect(url_for('main.home'))
 
@@ -73,19 +86,6 @@ def home():
             content = createTodo_form.task.data
         )
         toDo.save()
-
-        return redirect(url_for('main.home'))
-
-    if updateTodo_form.validate_on_submit():
-    
-        all_to_do_List = toDo.objects(owner=load_user(current_user.username))
-        # update_This_toDo = all_to_do_List.first()
-
-        for to_do in all_to_do_List:
-            if to_do.id == updateTodo_form.id.data:
-                to_do.modify(content=updateTodo_form.content.data)
-                to_do.save()
-                break
 
         return redirect(url_for('main.home'))
 
