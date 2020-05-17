@@ -31,10 +31,45 @@ def register():
 
         user = User(username=form.username.data, email=form.email.data, password=hashed)
         user.save()
+        session['new_username'] = user.username
 
         return redirect(url_for('users.login'))
 
     return render_template('register.html', title='Register', form=form)
+
+@users.route("/qr_code")
+def qr_code():
+    if 'new_username' not in session:
+        return redirect(url_for('main.index'))
+    
+    user = User.query.filter_by(username=session['new_username']).first()
+    session.pop('new_username')
+
+    uri = pyotp.totp.TOTP(user.otp_secret).provisioning_uri(name=user.username, issuer_name='CMSC388J-2FA-GP517')
+    img = qrcode.make(uri, image_factory=svg.SvgPathImage)
+    stream = BytesIO()
+    img.save(stream)
+
+    headers = {
+        'Content-Type': 'image/svg+xml',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0' # Expire immediately, so browser has to reverify everytime
+    }
+
+    return stream.getvalue(), headers
+@users.route("/tfa")
+def tfa():
+    if 'new_username' not in session:
+        return redirect(url_for('main.index'))
+
+    headers = {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0' # Expire immediately, so browser has to reverify everytime
+    }
+
+    return render_template('tfa.html'), headers
 
 
 @users.route('/login', methods=['GET', 'POST'])
