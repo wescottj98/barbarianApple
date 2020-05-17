@@ -12,19 +12,11 @@ from ..models import User
 
 class CreateTodoForm(FlaskForm):
     task = StringField("Task", validators=[InputRequired(), Length(min=1, max=500)])
-    # task2 = StringField("Task 2")
-    # task3 = StringField("Task 3")
-    # task4 = StringField("Task 4")
-    # task5 = StringField("Task 5")
     submit = SubmitField("Create")
 
 class UpdateTodoForm(FlaskForm):
-    task = StringField("Task")
-    # task2 = StringField("Task 2")
-    # task3 = StringField("Task 3")
-    # task4 = StringField("Task 4")
-    # task5 = StringField("Task 5")
-    submit = SubmitField("Update")
+    task = StringField("Update Content")
+    submit = SubmitField("Confirm")
 
 class ShareTodoForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])

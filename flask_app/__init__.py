@@ -20,7 +20,7 @@ app.config['SECRET_KEY'] = b'\x020;yr\x91\x11\xbe"\x9d\xc1\x14\x91\xadf\xec'
 # mongo = PyMongo(app)
 db = MongoEngine(app)
 login_manager = LoginManager(app)
-login_manager.login_view = 'user.login'
+login_manager.login_view = 'users.login'
 bcrypt = Bcrypt(app)
 
 #flask-mail
