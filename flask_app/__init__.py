@@ -1,6 +1,7 @@
 # 3rd-party packages
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, response
 from flask_mail import Mail
+from flask_talisman import Talisman
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
@@ -34,3 +35,16 @@ from flask_app.users.routes import users
 
 app.register_blueprint(main)
 app.register_blueprint(users)
+
+csp = {
+    'default-src':'\'self\''
+}
+
+Talisman(app, content_security_policy = csp)
+
+
+response.headers['Content-Security-Policy'] = "default src 'self'"
+response.headers['Strict-Transport-Secutiy'] = "default src 'self'"
+response.headers['X-Content-Type-Options'] = "nosniff"
+response.headers['X-Frame-Options'] = "default src 'self'"
+response.headers['X-XSS-Protection'] = "default src 'self'"
