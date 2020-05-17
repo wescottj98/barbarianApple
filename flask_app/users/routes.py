@@ -69,7 +69,7 @@ def tfa():
         'Expires': '0' # Expire immediately, so browser has to reverify everytime
     }
 
-    return render_template('tfa.html'), headers
+    return render_template('2fa.html'), headers
 
 
 @users.route('/login', methods=['GET', 'POST'])
