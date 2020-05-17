@@ -1,5 +1,5 @@
 # 3rd-party packages
-from flask import Flask, render_template, request, redirect, url_for, response
+from flask import Flask, render_template, request, redirect, url_for
 from flask_mail import Mail
 from flask_talisman import Talisman
 from flask_mongoengine import MongoEngine
@@ -37,14 +37,36 @@ app.register_blueprint(main)
 app.register_blueprint(users)
 
 csp = {
-    'default-src':'\'self\''
+    'default-src':'\'self\'',
+    'script-src': [
+      '\'self\'',
+      'https://stackpath.bootstrapcdn.com',
+      'https://code.jquery.com',
+      'https://cdn.jsdelivr.net',
+      '\'unsafe-inline\'' # Allow inline JS to modify our frontend and make interactive
+    ],
+    'style-src': [
+      '\'self\'',
+      'https://stackpath.bootstrapcdn.com',
+    ],
+    'font-src': [
+      '\'self\'',
+      'data:'
+    ],
+    'img-src': [
+      '\'self\'',
+      'data:'
+    ]
 }
 
 Talisman(app, content_security_policy = csp)
 
+@app.after_request
+def apply_security(response):
+  response.headers['Content-Security-Policy'] = "default src 'self'"
+  response.headers['Strict-Transport-Secutiy'] = "default src 'self'"
+  response.headers['X-Content-Type-Options'] = "nosniff"
+  response.headers['X-Frame-Options'] = "default src 'self'"
+  response.headers['X-XSS-Protection'] = "default src 'self'"
 
-response.headers['Content-Security-Policy'] = "default src 'self'"
-response.headers['Strict-Transport-Secutiy'] = "default src 'self'"
-response.headers['X-Content-Type-Options'] = "nosniff"
-response.headers['X-Frame-Options'] = "default src 'self'"
-response.headers['X-XSS-Protection'] = "default src 'self'"
+  return response
