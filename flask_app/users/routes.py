@@ -58,6 +58,7 @@ def qr_code():
     }
 
     return stream.getvalue(), headers
+
 @users.route("/tfa")
 def tfa():
     if 'new_username' not in session:

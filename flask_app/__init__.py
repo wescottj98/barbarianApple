@@ -12,8 +12,6 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-print(os.environ.get('MONGODB_URI'))
-
 app.config['MONGODB_SETTINGS'] = {
   'retryWrites': 'false',
   'host': os.environ.get('MONGODB_URI')
