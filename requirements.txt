@@ -26,3 +26,4 @@ Pillow==6.2.1
 flask-talisman==0.7.0
 pyOTP==2.3.0
 qrcode==6.1
+gunicorn==20.0.4
