@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, send_file, Blueprint
+from flask import render_template, request, redirect, url_for, flash, send_file, Blueprint, session
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
