@@ -7,10 +7,8 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
 
-# stdlib
 import os
 from datetime import datetime
-
 
 app = Flask(__name__)
 
@@ -18,6 +16,8 @@ app.config['MONGODB_URI'] = os.environ.get('MONGODB_HOST')
 app.config['MONGODB_SETTINGS'] = {
   'retryWrites': 'false'
 }
+
+app.config['SECRET_KEY'] = os.environ.get('CSRF_KEY')
 
 # mongo = PyMongo(app)
 db = MongoEngine(app)
