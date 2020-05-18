@@ -13,9 +13,11 @@ from datetime import datetime
 
 
 app = Flask(__name__)
-# app.config["MONGO_URI"] = "mongodb://localhost:27017/second_database"
-app.config['MONGODB_HOST'] = 'mongodb://localhost:27017/to_do_list_app'
-app.config['SECRET_KEY'] = b'\x020;yr\x91\x11\xbe"\x9d\xc1\x14\x91\xadf\xec'
+
+app.config['MONGODB_URI'] = os.environ.get('MONGODB_HOST')
+app.config['MONGODB_SETTINGS'] = {
+  'retryWrites': 'false'
+}
 
 # mongo = PyMongo(app)
 db = MongoEngine(app)
