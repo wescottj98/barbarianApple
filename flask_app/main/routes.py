@@ -65,6 +65,13 @@ def user_detail(username):
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
+    topusers = User.find()
+
+    return render_template('topusers.html', topusers = topusers)
+
+@main.route('/todo', methods=['GET', 'POST'])
+@login_required
+def todo():
     createTodo_form = CreateTodoForm()
     updateTodo_form = UpdateTodoForm()
 
@@ -82,5 +89,3 @@ def home():
     # image = images(current_user.username)
 
     return render_template('home.html', createTodo_form=createTodo_form, updateTodo_form=updateTodo_form, current_user_to_do_list=current_user_to_do_list)
-
-
