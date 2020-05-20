@@ -1,0 +1,51 @@
+{% extends "header.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <div class="row">
+
+            <div class="col-1"></div>
+
+            <div class="col-10">
+                <br>
+                    <h1 class="heading">Below are the top 10 on the leaderboard</h1>
+                    <br>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Username</th>
+                            <th scope="col"># of Task</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%if topusers %}
+
+                        {% for to_do in topusers %}
+
+                        <tr>
+                            <td>{{to_do.username}}</td>
+                            <td>{{ to_do.todo_count }}</td>
+
+                        </tr>
+
+
+                        {% endfor %}
+
+                        {%else%}
+                        <p>Not avalibale </p>
+                        {%endif%}
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-1"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
