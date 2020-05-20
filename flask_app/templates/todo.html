@@ -1,0 +1,113 @@
+{% extends "header.html" %}
+{% block content %}
+
+<div class="row">
+    <h1 class="heading">Welcome {{current_user.username}} to your Todo List!</h1>
+</div>
+
+<div class="row">
+  <div class="col">
+      <form action="" method="post">
+          {{ createTodo_form.csrf_token }}
+          <div class="form-group">
+              {{ createTodo_form.task.label(class="form-control-label") }}
+              {{ createTodo_form.task(class="form-control form-control-lg") }}
+
+              {% if createTodo_form.errors %}
+              <div class="alert alert-warning" role="alert">
+                  {% for error in createTodo_form.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+              </div>
+              {% endif %}
+          </div>
+      
+          
+          {{ createTodo_form.submit(class="btn btn-success") }}
+        <hr>
+      </form>
+
+
+      <div id="todo-list">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-warning" role="alert">
+              {% for message in messages %}
+                <span>{{ message }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <ul class="todos">
+          {% for to_do in current_user_to_do_list %}
+          <li>
+            <div class="row">
+              <div class="col-9">
+                <span class="todo-text" id="content-{{to_do.id}}">{{to_do.content}}</span>
+              </div>
+
+              <div class="col-3 text-right">
+                <div class="row">
+                  <button todo_id="{{to_do.id}}" onclick="updateTodo(event)" class="btn btn-primary">Update</button>
+
+                  <form action="/todos/delete/{{to_do.id}}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+    
+                  
+                  <form action="/todos/share/{{to_do.id}}" method="post">
+                    <button type="submit" class="btn btn-warning">Share</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            <form action="/todos/update/{{to_do.id}}" class="hidden" id="updt-{{to_do.id}}" method="post">
+              {{ updateTodo_form.csrf_token }}
+              <div class="form-group">
+                  {{ updateTodo_form.task.label(class="form-control-label") }}
+                  {{ updateTodo_form.task(class="form-control form-control-lg") }}
+    
+                  {% if updateTodo_form.errors %}
+                  <div class="alert alert-warning" role="alert">
+                      {% for error in updateTodo_form.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                  </div>
+                  {% endif %}
+              </div>
+          
+                
+              <div class="form-group">
+                  {{ updateTodo_form.submit }}
+              </div>
+              <hr><br>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script nonce="update">
+  function updateTodo(event) {
+    console.log(event);
+    const id = event.target.getAttribute('todo_id');
+
+    const updateForm = document.getElementById(`updt-${id}`)
+
+    // Toggle hidden class from update form
+    if (updateForm) {
+      if (updateForm.className.includes("hidden")) {
+        updateForm.className = "";
+      } else {
+        updateForm.className = "hidden";
+      }
+    }
+  }
+</script>
+
+
+{% endblock %}

@@ -36,8 +36,9 @@ def deleteTodo(todo_id):
         flash('Todo not found to delete')
     else:
         todo.delete()
+        User.objects(id=current_user.id).update_one(dec__todo_count=1)
 
-    return redirect(url_for('main.home'))
+    return redirect(url_for('main.todo'))
 
 @main.route('/todos/update/<todo_id>', methods=['POST'])
 def updateTodo(todo_id):
@@ -50,7 +51,7 @@ def updateTodo(todo_id):
         if update != True:
             flash('Todo not found to update')
 
-    return redirect(url_for('main.home'))
+    return redirect(url_for('main.todo'))
 
 @main.route('/user/<username>')
 def user_detail(username):
@@ -65,9 +66,9 @@ def user_detail(username):
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    topusers = User.find()
+    top_users = User.objects.order_by('todo_count')
 
-    return render_template('topusers.html', topusers = topusers)
+    return render_template('home.html', topusers = top_users[:10])
 
 @main.route('/todo', methods=['GET', 'POST'])
 @login_required
@@ -75,7 +76,7 @@ def todo():
     createTodo_form = CreateTodoForm()
     updateTodo_form = UpdateTodoForm()
 
-    current_user_to_do_list = ToDo.objects(owner=load_user(current_user.username))
+    current_user_to_do_list = ToDo.objects(owner=load_user(current_user.id))
 
     if createTodo_form.validate_on_submit():
         toDo = ToDo(
@@ -84,8 +85,10 @@ def todo():
         )
         toDo.save()
 
-        return redirect(url_for('main.home'))
+        User.objects(id=current_user.id).update_one(inc__todo_count=1)
+
+        return redirect(url_for('main.todo'))
 
     # image = images(current_user.username)
 
-    return render_template('home.html', createTodo_form=createTodo_form, updateTodo_form=updateTodo_form, current_user_to_do_list=current_user_to_do_list)
+    return render_template('todo.html', createTodo_form=createTodo_form, updateTodo_form=updateTodo_form, current_user_to_do_list=current_user_to_do_list)
