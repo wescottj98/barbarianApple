@@ -73,10 +73,11 @@ def home():
 @main.route('/todo', methods=['GET', 'POST'])
 @login_required
 def todo():
+    print("HERE")
     createTodo_form = CreateTodoForm()
     updateTodo_form = UpdateTodoForm()
 
-    current_user_to_do_list = ToDo.objects(owner=load_user(current_user.id))
+    current_user_to_do_list = ToDo.objects(owner=load_user(current_user.username))
 
     if createTodo_form.validate_on_submit():
         toDo = ToDo(
@@ -88,7 +89,5 @@ def todo():
         User.objects(id=current_user.id).update_one(inc__todo_count=1)
 
         return redirect(url_for('main.todo'))
-
-    # image = images(current_user.username)
 
     return render_template('todo.html', createTodo_form=createTodo_form, updateTodo_form=updateTodo_form, current_user_to_do_list=current_user_to_do_list)
