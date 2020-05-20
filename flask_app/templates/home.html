@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="row">
-    <h1>Welcome {{current_user.username}} to your To-do List!</h1>
+    <h1 class="heading">Welcome {{current_user.username}} to your Todo List!</h1>
 </div>
 
 <div class="row">
@@ -23,10 +23,8 @@
           </div>
       
           
-        <div class="form-group">
-            {{ createTodo_form.submit }}
-        </div>
-        <hr><br>
+          {{ createTodo_form.submit(class="btn btn-success") }}
+        <hr>
       </form>
 
 
@@ -41,46 +39,55 @@
           {% endif %}
         {% endwith %}
 
-        {% for to_do in current_user_to_do_list %}
-          <div class="row">
-            <input type="checkbox" name="doneWithTask" id="chk-{{to_do.id}}">
-            <span id="content-{{to_do.id}}"> {{to_do.content}}</span>
+        <ul class="todos">
+          {% for to_do in current_user_to_do_list %}
+          <li>
+            <div class="row">
+              <div class="col-9">
+                <span class="todo-text" id="content-{{to_do.id}}">{{to_do.content}}</span>
+              </div>
 
-            <button todo_id="{{to_do.id}}" onclick="updateTodo(event)" class="btn btn-primary">Update</button>
+              <div class="col-3 text-right">
+                <div class="row">
+                  <button todo_id="{{to_do.id}}" onclick="updateTodo(event)" class="btn btn-primary">Update</button>
 
-            <form action="/todos/delete/{{to_do.id}}" method="post">
-              <button type="submit" class="btn btn-primary">Delete</button>
-            </form>
-
-            
-            <form action="/todos/share/{{to_do.id}}" method="post">
-              <button type="submit" class="btn btn-primary">Share (not yet implemented</button>
-            </form>
-          </div>
-          
-          <form action="/todos/update/{{to_do.id}}" class="hidden" id="updt-{{to_do.id}}" method="post">
-            {{ updateTodo_form.csrf_token }}
-            <div class="form-group">
-                {{ updateTodo_form.task.label(class="form-control-label") }}
-                {{ updateTodo_form.task(class="form-control form-control-lg") }}
-  
-                {% if updateTodo_form.errors %}
-                <div class="alert alert-warning" role="alert">
-                    {% for error in updateTodo_form.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
+                  <form action="/todos/delete/{{to_do.id}}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+    
+                  
+                  <form action="/todos/share/{{to_do.id}}" method="post">
+                    <button type="submit" class="btn btn-warning">Share</button>
+                  </form>
                 </div>
-                {% endif %}
+              </div>
             </div>
-        
-              
-            <div class="form-group">
-                {{ updateTodo_form.submit }}
-            </div>
-            <hr><br>
-          </form>
+            
+            <form action="/todos/update/{{to_do.id}}" class="hidden" id="updt-{{to_do.id}}" method="post">
+              {{ updateTodo_form.csrf_token }}
+              <div class="form-group">
+                  {{ updateTodo_form.task.label(class="form-control-label") }}
+                  {{ updateTodo_form.task(class="form-control form-control-lg") }}
+    
+                  {% if updateTodo_form.errors %}
+                  <div class="alert alert-warning" role="alert">
+                      {% for error in updateTodo_form.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                  </div>
+                  {% endif %}
+              </div>
+          
+                
+              <div class="form-group">
+                  {{ updateTodo_form.submit }}
+              </div>
+              <hr><br>
+            </form>
+          </li>
         {% endfor %}
-      </div>
+      </ul>
+    </div>
   </div>
 </div>
 
