@@ -28,6 +28,10 @@ def index():
 
     return render_template('index.html')
 
+@main.route('/about', methods=['GET'])
+def about():
+    return render_template('about.html')
+
 
 @main.route('/todos/delete/<todo_id>', methods=['POST'])
 def deleteTodo(todo_id):

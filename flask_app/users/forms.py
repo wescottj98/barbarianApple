@@ -46,7 +46,7 @@ class LoginForm(FlaskForm):
                 raise ValidationError("Invalid Token")
 
 class UpdateUsernameForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired(), Length(min=1, max=40)])
+    username = StringField('New Username', validators=[InputRequired(), Length(min=1, max=40)])
     submit = SubmitField('Update Username')
 
     def validate_username(self, username):
@@ -56,7 +56,7 @@ class UpdateUsernameForm(FlaskForm):
                 raise ValidationError("That username is already taken")
 
 class UpdateProfilePicForm(FlaskForm):
-    propic = FileField('Profile Picture', validators=[
+    propic = FileField('New Profile Picture', validators=[
         FileRequired(), 
         FileAllowed(['jpg', 'png'], 'Images Only!')
     ])

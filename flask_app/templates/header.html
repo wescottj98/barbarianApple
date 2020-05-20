@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block header %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{{ url_for('main.index') }}">Todo List</a>
+    <a class="navbar-brand" href="{{ url_for('main.home') }}">Home</a>
+    <a class="navbar-brand" href="{{ url_for('main.todo') }}">Todo List</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

@@ -26,6 +26,16 @@ li span {
     position: relative;
     margin-left: 10px;
 }
+
+.propic {
+    width: 100px;
+    height: auto;
+}
+
+.right-align {
+    display: block;
+    text-align:right
+}
 /* .nav-user {
     border-right: 1px #1d1d1d;
 } */

@@ -117,7 +117,6 @@ def account():
     profile_pic_form = UpdateProfilePicForm()
 
     if username_form.validate_on_submit():
-        # current_user.username = username_form.username.data
         current_user.modify(username=username_form.username.data)
         current_user.save()
         login_user(current_user)
