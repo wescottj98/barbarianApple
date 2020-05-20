@@ -107,8 +107,6 @@ def account():
     username_form = UpdateUsernameForm()
     profile_pic_form = UpdateProfilePicForm()
 
-    print(username_form.submit.data)
-    print(profile_pic_form.submit.data)
     # We have to make sure the form was actually submitted before validating since we have 2 forms on one page
     if username_form.submit.data and username_form.validate_on_submit():
         current_user.modify(username=username_form.username.data)

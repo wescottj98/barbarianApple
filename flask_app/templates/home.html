@@ -15,7 +15,8 @@
                     <thead>
                         <tr>
                             <th scope="col">Username</th>
-                            <th scope="col"># of Task</th>
+                            <th scope="col""># of Task</th>
+                            <th scope="col">Link</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,16 +25,16 @@
                         {% for to_do in topusers %}
 
                         <tr>
-                            <td>{{to_do.username}}</td>
+                            <td>{{ to_do.username }}</td>
                             <td>{{ to_do.todo_count }}</td>
-
+                            <td><a href="/user/{{ to_do.username }}" class="btn btn-primary">Profile</a></td>
                         </tr>
 
 
                         {% endfor %}
 
                         {%else%}
-                        <p>Not avalibale </p>
+                        <p>Not available </p>
                         {%endif%}
 
                     </tbody>
