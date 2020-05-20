@@ -28,16 +28,6 @@ def index():
 
     return render_template('index.html')
 
-'''
-@main.route('/search-results/<query>', methods=['GET'])
-def query_results(query):
-    results = client.search(query)
-
-    if type(results) == dict:
-        return render_template('query.html', error_msg=results['Error'])
-    
-    return render_template('query.html', results=results)
-'''
 
 @main.route('/todos/delete/<todo_id>', methods=['POST'])
 def deleteTodo(todo_id):

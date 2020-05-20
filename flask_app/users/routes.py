@@ -5,6 +5,11 @@ from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
 
 from PIL import Image
+#2FA/TFA
+import pyotp
+import qrcode
+import qrcode.image.svg as svg
+from io import BytesIO
 
 # stdlib
 from datetime import datetime
@@ -33,7 +38,7 @@ def register():
         user.save()
         session['new_username'] = user.username
 
-        return redirect(url_for('users.login'))
+        return redirect(url_for('users.tfa'))
 
     return render_template('register.html', title='Register', form=form)
 
@@ -42,10 +47,10 @@ def qr_code():
     if 'new_username' not in session:
         return redirect(url_for('main.index'))
     
-    user = User.query.filter_by(username=session['new_username']).first()
+    user = User.objects(username=session['new_username']).first()
     session.pop('new_username')
 
-    uri = pyotp.totp.TOTP(user.otp_secret).provisioning_uri(name=user.username, issuer_name='CMSC388J-2FA-GP517')
+    uri = pyotp.totp.TOTP(user.otp_secret).provisioning_uri(name=user.username, issuer_name='ToDoList-App-2FA-GP517')
     img = qrcode.make(uri, image_factory=svg.SvgPathImage)
     stream = BytesIO()
     img.save(stream)

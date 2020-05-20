@@ -39,7 +39,7 @@ class LoginForm(FlaskForm):
         if user is None:
             raise ValidationError("That username does not exist in our database.")
     def validate_token(self, token):
-        user = User.query.filter_by(username.self.username.data).first()
+        user = User.objects(username=self.username.data).first()
         if user is not None:
             tok_verified = pyotp.TOTP(user.otp_secret).verify(token.data)
             if not tok_verified:
