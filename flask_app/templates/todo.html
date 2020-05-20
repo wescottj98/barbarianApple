@@ -93,7 +93,6 @@
 
 <script nonce="update">
   function updateTodo(event) {
-    console.log(event);
     const id = event.target.getAttribute('todo_id');
 
     const updateForm = document.getElementById(`updt-${id}`)
@@ -104,6 +103,21 @@
         updateForm.className = "";
       } else {
         updateForm.className = "hidden";
+      }
+    }
+  }
+
+  function shareTodo(event) {
+    const id = event.target.getAttribute('todo_id');
+
+    const shareForm = document.getElementById(`share-${id}`)
+
+    // Toggle hidden class from share form
+    if (shareForm) {
+      if (shareForm.className.includes("hidden")) {
+        shareForm.className = "";
+      } else {
+        shareForm.className = "hidden";
       }
     }
   }

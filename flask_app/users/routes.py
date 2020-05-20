@@ -20,7 +20,7 @@ import base64
 from .. import app, bcrypt
 from .forms import (RegistrationForm, LoginForm,
                              UpdateUsernameForm, UpdateProfilePicForm)
-from ..models import User, Review, load_user
+from ..models import User, load_user
 from ..utils import current_time
 
 users = Blueprint("users", __name__)

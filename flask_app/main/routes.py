@@ -15,7 +15,7 @@ import base64
 from .. import app, bcrypt
 from .forms import (CreateTodoForm, UpdateTodoForm,
                              ShareTodoForm)
-from ..models import User, Review, load_user, ToDo
+from ..models import User, load_user, ToDo
 from ..utils import current_time
 
 main = Blueprint("main", __name__)
@@ -60,11 +60,10 @@ def updateTodo(todo_id):
 @main.route('/user/<username>')
 def user_detail(username):
     user = User.objects(username=username).first()
-    reviews = Review.objects(commenter=user)
 
     image = images(username)
 
-    return render_template('user_detail.html', username=username, reviews=reviews, image=image)
+    return render_template('user_detail.html', username=username,  image=image)
 
 
 @main.route('/home', methods=['GET', 'POST'])
@@ -77,7 +76,6 @@ def home():
 @main.route('/todo', methods=['GET', 'POST'])
 @login_required
 def todo():
-    print("HERE")
     createTodo_form = CreateTodoForm()
     updateTodo_form = UpdateTodoForm()
 
