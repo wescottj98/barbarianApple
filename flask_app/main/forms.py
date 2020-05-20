@@ -16,8 +16,8 @@ class CreateTodoForm(FlaskForm):
 
 class UpdateTodoForm(FlaskForm):
     task = StringField("Update Content")
-    submit = SubmitField("Confirm")
+    submit = SubmitField("Confirm Update")
 
 class ShareTodoForm(FlaskForm):
-    username = StringField("Username", validators=[InputRequired()])
-    submit = SubmitField("Share")
+    email = StringField("Email", validators=[InputRequired()])
+    submit = SubmitField("Confirm Share")

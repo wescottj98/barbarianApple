@@ -13,14 +13,12 @@ from io import BytesIO
 
 # stdlib
 from datetime import datetime
-import io
-import base64
 
 # local
 from .. import app, bcrypt
 from .forms import (RegistrationForm, LoginForm,
                              UpdateUsernameForm, UpdateProfilePicForm)
-from ..models import User, load_user
+from ..models import User, load_user, images
 from ..utils import current_time
 
 users = Blueprint("users", __name__)
@@ -103,27 +101,23 @@ def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
-# @main.route('/images/<username>.png')
-def images(username):
-    user = User.objects(username=username).first()
-    bytes_im = io.BytesIO(user.profile_pic.read())
-    image = base64.b64encode(bytes_im.getvalue()).decode()
-    return image
-
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
     username_form = UpdateUsernameForm()
     profile_pic_form = UpdateProfilePicForm()
 
-    if username_form.validate_on_submit():
+    print(username_form.submit.data)
+    print(profile_pic_form.submit.data)
+    # We have to make sure the form was actually submitted before validating since we have 2 forms on one page
+    if username_form.submit.data and username_form.validate_on_submit():
         current_user.modify(username=username_form.username.data)
         current_user.save()
         login_user(current_user)
 
         return redirect(url_for('users.account'))
 
-    if profile_pic_form.validate_on_submit():
+    if profile_pic_form.submit.data and profile_pic_form.validate_on_submit():
         img = profile_pic_form.propic.data
         filename = secure_filename(img.filename)
 

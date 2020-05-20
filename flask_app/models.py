@@ -3,10 +3,18 @@ from datetime import datetime
 from . import db, login_manager
 import pyotp
 
+import io
+import base64
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.objects(username=user_id).first()
 
+def images(username):
+    user = User.objects(username=username).first()
+    bytes_im = io.BytesIO(user.profile_pic.read())
+    image = base64.b64encode(bytes_im.getvalue()).decode()
+    return image
 
 class User(db.Document, UserMixin):
     username = db.StringField(required=True, unique=True)

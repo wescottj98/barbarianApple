@@ -7,9 +7,12 @@
 }
 
 .btn {
-    margin-left: 10px;
     height: 40px;
     width: auto;
+}
+
+.action-btn {
+    margin-left: 10px;
 }
 
 .todos {
@@ -36,6 +39,3 @@ li span {
     display: block;
     text-align:right
 }
-/* .nav-user {
-    border-right: 1px #1d1d1d;
-} */

@@ -1,11 +1,11 @@
 {% extends "header.html" %}
 {% block content %}
 <div class="row">
-    {% if image %}
-        <div class="col-3">
+    <div class="col-3">
+        {% if image %}
             <img class="propic" src="data:image/png;base64,{{image}}" alt="image">
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
     <div class="col-9">
         <h1 class="right-align">Hey, {{ current_user.username }}!</h1>
         <h3 class="right-align">Todo Count: {{ current_user.todo_count }}</h3>
