@@ -120,6 +120,8 @@ def account():
         # current_user.username = username_form.username.data
         current_user.modify(username=username_form.username.data)
         current_user.save()
+        login_user(current_user)
+
         return redirect(url_for('users.account'))
 
     if profile_pic_form.validate_on_submit():
