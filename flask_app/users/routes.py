@@ -106,16 +106,16 @@ def logout():
 def account():
     username_form = UpdateUsernameForm()
     profile_pic_form = UpdateProfilePicForm()
-
+    
     # We have to make sure the form was actually submitted before validating since we have 2 forms on one page
-    if username_form.submit.data and username_form.validate_on_submit():
+    if username_form.username.data is not None and username_form.submit.data and username_form.validate_on_submit():
         current_user.modify(username=username_form.username.data)
         current_user.save()
         login_user(current_user)
 
         return redirect(url_for('users.account'))
 
-    if profile_pic_form.submit.data and profile_pic_form.validate_on_submit():
+    if profile_pic_form.propic.data is not None and profile_pic_form.validate_on_submit():
         img = profile_pic_form.propic.data
         filename = secure_filename(img.filename)
 

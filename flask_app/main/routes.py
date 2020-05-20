@@ -96,7 +96,7 @@ def user_detail(username):
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    top_users = User.objects.order_by('todo_count')
+    top_users = User.objects.order_by('-todo_count')
 
     return render_template('home.html', topusers = top_users[:10])
 
